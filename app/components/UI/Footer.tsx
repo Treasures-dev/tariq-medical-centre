@@ -1,6 +1,6 @@
 "use client";
 
-import React, { JSX } from "react";
+import React, { JSX, useEffect } from "react";
 import BlurText from "@/components/BlurText";
 import useSWR from "swr";
 import { FaInstagram, FaFacebook } from "react-icons/fa";
@@ -15,20 +15,29 @@ type Department = {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Footer(): JSX.Element {
-  const { data, error } = useSWR<{ departments?: Department[] } | Department[] | null>(
-    "/api/departments",
-    fetcher
-  );
 
-  // Normalize possible API shapes: either an array or { departments: [] }
-  const departments: Department[] = React.useMemo(() => {
-    if (!data) return [];
-    if (Array.isArray(data)) return data as Department[];
-    if (Array.isArray((data as any).departments)) return (data as any).departments;
-    return [];
-  }, [data]);
 
-  const isLoading = data === undefined && !error;
+  const { data, error } = useSWR<
+  { departments?: Department[] } | Department[] | null
+>("/api/departments", fetcher);
+
+// Normalize shapes
+const departments: Department[] = React.useMemo(() => {
+  if (!data) return [];
+  if (Array.isArray(data)) return data as Department[];
+  if (Array.isArray((data as any).departments)) return (data as any).departments;
+  return [];
+}, [data]);
+
+const isLoading = data === undefined && !error;
+
+// 🔥 Run once whenever data arrives
+React.useEffect(() => {
+  if (data) {
+    console.log("Departments loaded:", departments);
+    // You can run any side-effect here
+  }
+}, [data, departments]);
 
   return (
     <footer className="bg-white/90 backdrop-blur-md border-t border-white/20 shadow-inner mt-12">

@@ -36,9 +36,9 @@ export default function ServiceSection() {
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
         >
-          <div className="absolute -top-20 -left-20 w-[420px] h-[420px] bg-gradient-to-br from-[#e0f2ff] to-[#f0f9ff] opacity-40 blur-3xl rounded-full transform rotate-12" />
-          <div className="absolute -bottom-20 -right-10 w-[360px] h-[360px] bg-gradient-to-br from-[#fff0f6] to-[#fff7ed] opacity-30 blur-3xl rounded-full transform -rotate-6" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[560px] h-[220px] bg-gradient-to-r from-[#e6f7ff]/20 to-[#f3f8ff]/5 opacity-40 blur-xl rounded-3xl" />
+          <div className="absolute -top-20 -left-20 w-[420px] h-[420px] bg-linear-to-br from-[#e0f2ff] to-[#f0f9ff] opacity-40 blur-3xl rounded-full transform rotate-12" />
+          <div className="absolute -bottom-20 -right-10 w-[360px] h-[360px] bg-linear-to-br from-[#fff0f6] to-[#fff7ed] opacity-30 blur-3xl rounded-full transform -rotate-6" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[560px] h-[220px] bg-linear-to-r from-[#e6f7ff]/20 to-[#f3f8ff]/5 opacity-40 blur-xl rounded-3xl" />
         </div>
 
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center md:gap-10 lg:gap-48 sm:gap-10 relative z-10">
