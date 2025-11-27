@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const PROD_BASE = "http://localhost:3000"; // Update this to your production URL
+const PROD_BASE = process.env.NEXT_PUBLIC_BASE_URL as string 
 
 export const metadata: Metadata = {
   title: {
