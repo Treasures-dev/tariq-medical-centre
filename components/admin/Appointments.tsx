@@ -39,7 +39,7 @@ function parseDateField(d: AppointmentServerShape["date"]): Date | null {
   return null;
 }
 
-export function AppointmentsView() {
+export default function AppointmentsView() {
   const { data, error, isLoading } = useSWR<{ appointments: AppointmentServerShape[] }>("/api/admin/appointments", fetcher);
 
   if (isLoading) return <p>Loading appointments...</p>;

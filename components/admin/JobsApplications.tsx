@@ -33,7 +33,7 @@ function parseDate(d?: string | { $date?: string } | undefined): Date | null {
   return null;
 }
 
-export function JobsApplicationsView() {
+export default function JobsApplicationsView() {
   const { data, error, isLoading, mutate } = useSWR<{
     ok: boolean;
     data: ApplicantServerShape[];

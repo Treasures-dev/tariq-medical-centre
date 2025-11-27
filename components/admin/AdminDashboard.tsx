@@ -1,23 +1,113 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import { SuseFont } from "@/lib/utils";
-import { AppointmentsView } from "@/components/admin/Appointments";
-import { Sidebar, Topbar, StatCard } from "@/components/admin/Component";
-import DoctorModal from "@/components/admin/DoctorModal";
-import ServiceModal from "@/components/admin/modals/ServiceModal";
-import PharmacyModal from "@/components/admin/modals/PharmacyModal";
-import OngoingTreatmentModal from "@/components/admin/modals/OnGoing";
-import DoctorsView from "@/components/admin/Doctors";
-import DepartmentModal from "./modals/Department";
-import { DepartmentsView } from "./DepartmentsView";
-import { ServicesView } from "./ServicesView";
-import { PharmacyProductsView } from "./ProductsView";
-import { PrescriptionsView } from "./PrescriptionsView";
-import { JobsApplicationsView } from "./JobsApplications";
-import { OngoingTreatmentsView } from "./TreatmentsView";
-import AdminOverviewRealtime from "./Overview";
+import { Sidebar, Topbar } from "@/components/admin/Component";
 
+/* --------------------
+   Beautiful blue loader
+   --------------------
+   - Tailwind utility classes used for quick styling
+   - Accessible (aria-live)
+*/
+function BlueLoader({ text = "Loading…" }: { text?: string }) {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className="flex items-center gap-3 p-4"
+    >
+      {/* Spinner */}
+      <svg
+        className="animate-spin h-8 w-8 text-blue-600"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        />
+        <path
+          className="opacity-90"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+        />
+      </svg>
+
+      {/* Text + subtle skeleton bar */}
+      <div className="flex flex-col">
+        <span className="text-blue-700 font-medium">{text}</span>
+        <div className="mt-2 w-40 h-2 bg-blue-100 rounded overflow-hidden">
+          <div className="h-2 bg-linear-to-r from-blue-400 via-blue-500 to-blue-600 opacity-90 animate-pulse" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* --------------------
+   Dynamic imports (with loading)
+   -------------------- */
+/* Views (allow SSR where possible — just provide loading UI) */
+const AdminOverviewRealtime = dynamic(() => import("./Overview"), {
+  loading: () => <BlueLoader text="Loading overview…" />,
+});
+const DoctorsView = dynamic(() => import("./Doctors"), {
+  loading: () => <BlueLoader text="Loading doctors…" />,
+});
+const AppointmentsView = dynamic(() => import("@/components/admin/Appointments"), {
+  loading: () => <BlueLoader text="Loading appointments…" />,
+});
+const DepartmentsView = dynamic(() => import("./DepartmentsView"), {
+  loading: () => <BlueLoader text="Loading departments…" />,
+});
+const ServicesView = dynamic(() => import("./ServicesView"), {
+  loading: () => <BlueLoader text="Loading services…" />,
+});
+const PharmacyProductsView = dynamic(() => import("./ProductsView"), {
+  loading: () => <BlueLoader text="Loading pharmacy…" />,
+});
+const PrescriptionsView = dynamic(() => import("./PrescriptionsView"), {
+  loading: () => <BlueLoader text="Loading prescriptions…" />,
+});
+const JobsApplicationsView = dynamic(() => import("./JobsApplications"), {
+  loading: () => <BlueLoader text="Loading applications…" />,
+});
+const OngoingTreatmentsView = dynamic(() => import("./TreatmentsView"), {
+  loading: () => <BlueLoader text="Loading treatments…" />,
+});
+
+/* Modals (client-only) — load only in browser and show loader while fetching */
+const DoctorModal = dynamic(
+  () => import("@/components/admin/DoctorModal"),
+  {  loading: () => <BlueLoader text="Preparing doctor form…" /> }
+);
+const ServiceModal = dynamic(
+  () => import("@/components/admin/modals/ServiceModal"),
+  {  loading: () => <BlueLoader text="Preparing service form…" /> }
+);
+const PharmacyModal = dynamic(
+  () => import("@/components/admin/modals/PharmacyModal"),
+  {  loading: () => <BlueLoader text="Preparing product form…" /> }
+);
+const OngoingTreatmentModal = dynamic(
+  () => import("@/components/admin/modals/OnGoing"),
+  {  loading: () => <BlueLoader text="Preparing treatment form…" /> }
+);
+const DepartmentModal = dynamic(() => import("./modals/Department"), {
+  
+  loading: () => <BlueLoader text="Preparing department form…" />,
+});
+
+/* --------------------
+   Main admin dashboard
+   -------------------- */
 export default function AdminDashboard() {
   const [active, setActive] = useState("overview");
   const [collapsed, setCollapsed] = useState(false);
@@ -65,6 +155,7 @@ export default function AdminDashboard() {
     setServiceOpen(false);
     setPharmacyOpen(false);
     setTreatmentOpen(false);
+    setDepartmentOpen(false);
     setDepartmentSlug("");
     setServiceEditSlug(null);
     setProductEditSlug(null);
@@ -106,9 +197,7 @@ export default function AdminDashboard() {
           <Topbar onCreate={handleCreate} activeTab={active} />
 
           <div className="px-1">
-            {active === "overview" && (
-              <AdminOverviewRealtime/>
-            )}
+            {active === "overview" && <AdminOverviewRealtime />}
 
             {active === "doctors" && (
               <DoctorsView onEdit={doctorSlugExtract} key={refreshKey} />
@@ -139,9 +228,7 @@ export default function AdminDashboard() {
             {active === "ongoing" && (
               <div className="p-6">
                 <OngoingTreatmentsView
-                  onEdit={(id) => {
-                    // optional: capture id if you later add edit support
-                    // setTreatmentId(id); // if you add state to hold id
+                  onEdit={() => {
                     setTreatmentOpen(true);
                   }}
                   key={refreshKey}
@@ -150,50 +237,60 @@ export default function AdminDashboard() {
             )}
           </div>
 
-          {/* Modals */}
-          <DoctorModal
-            doctorId={doctorId}
-            doctorSlug={doctorSlug}
-            open={isDoctorOpen}
-            onClose={closeAll}
-            afterSave={() => setRefreshKey((k) => k + 1)}
-          />
+          {/* ---------- Modals (render only when open) ---------- */}
+          {isDoctorOpen && (
+            <DoctorModal
+              doctorId={doctorId}
+              doctorSlug={doctorSlug}
+              open={isDoctorOpen}
+              onClose={closeAll}
+              afterSave={() => setRefreshKey((k) => k + 1)}
+            />
+          )}
 
-          <ServiceModal
-            open={isServiceOpen}
-            onClose={() => {
-              setServiceOpen(false);
-              setServiceEditSlug(null);
-            }}
-            afterSave={() => setRefreshKey((k) => k + 1)}
-            serviceSlug={serviceEditSlug ?? undefined}
-          />
+          {isServiceOpen && (
+            <ServiceModal
+              open={isServiceOpen}
+              onClose={() => {
+                setServiceOpen(false);
+                setServiceEditSlug(null);
+              }}
+              afterSave={() => setRefreshKey((k) => k + 1)}
+              serviceSlug={serviceEditSlug ?? undefined}
+            />
+          )}
 
-          <PharmacyModal
-            open={isPharmacyOpen}
-            onClose={() => {
-              setPharmacyOpen(false);
-              setProductEditSlug(null);
-            }}
-            afterSave={() => setRefreshKey((k) => k + 1)}
-            productSlug={productEditSlug ?? undefined}
-          />
+          {isPharmacyOpen && (
+            <PharmacyModal
+              open={isPharmacyOpen}
+              onClose={() => {
+                setPharmacyOpen(false);
+                setProductEditSlug(null);
+              }}
+              afterSave={() => setRefreshKey((k) => k + 1)}
+              productSlug={productEditSlug ?? undefined}
+            />
+          )}
 
-          <OngoingTreatmentModal
-            open={isTreatmentOpen}
-            onClose={closeAll}
-            afterSave={() => setRefreshKey((k) => k + 1)}
-          />
+          {isTreatmentOpen && (
+            <OngoingTreatmentModal
+              open={isTreatmentOpen}
+              onClose={closeAll}
+              afterSave={() => setRefreshKey((k) => k + 1)}
+            />
+          )}
 
-          <DepartmentModal
-            open={isDepartmentOpen}
-            onClose={() => {
-              setDepartmentOpen(false);
-              setDepartmentSlug("");
-            }}
-            afterSave={() => setRefreshKey((k) => k + 1)}
-            departmentSlug={departmentSlug}
-          />
+          {isDepartmentOpen && (
+            <DepartmentModal
+              open={isDepartmentOpen}
+              onClose={() => {
+                setDepartmentOpen(false);
+                setDepartmentSlug("");
+              }}
+              afterSave={() => setRefreshKey((k) => k + 1)}
+              departmentSlug={departmentSlug}
+            />
+          )}
         </main>
       </div>
     </div>

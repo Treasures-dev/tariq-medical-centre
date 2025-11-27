@@ -22,7 +22,7 @@ type Props = {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export function OngoingTreatmentsView({ onEdit }: Props) {
+export default function OngoingTreatmentsView({ onEdit }: Props) {
   const { data, error, isLoading } = useSWR<{ data?: Treatment[]; treatments?: Treatment[] }>(
     "/api/admin/treatments",
     fetcher,

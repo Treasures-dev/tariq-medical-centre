@@ -28,7 +28,7 @@ type Props = {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export function PharmacyProductsView({ onEdit }: Props) {
+export default function PharmacyProductsView({ onEdit }: Props) {
   const { data, error, isLoading } = useSWR<{
     data?: Product[];
     products?: Product[];

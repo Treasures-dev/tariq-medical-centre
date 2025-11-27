@@ -17,7 +17,7 @@ type Prescription = {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export function PrescriptionsView() {
+export default function PrescriptionsView() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPrescription, setSelectedPrescription] = useState<Prescription | null>(null);
 

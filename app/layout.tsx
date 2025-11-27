@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Dosis, SUSE } from "next/font/google";
-import { Michroma } from "next/font/google";
+
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import Navbar from "./components/UI/Navbar";
@@ -8,15 +7,7 @@ import WhatsAppFab from "./components/UI/Whatsapp";
 import Footer from "./components/UI/Footer";
 import { EdgeStoreProvider } from "@/lib/edgestore/edgestore";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const PROD_BASE = process.env.NEXT_PUBLIC_BASE_URL as string 
 

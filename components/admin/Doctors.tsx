@@ -177,7 +177,7 @@ export default function DoctorsView({ onEdit }: DoctorsViewProps = {}) {
       {error && (
         <div className="rounded-lg border border-red-200 bg-red-50 p-4 flex items-start gap-3">
           <svg
-            className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0"
+            className="w-5 h-5 text-red-600 mt-0.5 shrink-0"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -243,7 +243,7 @@ export default function DoctorsView({ onEdit }: DoctorsViewProps = {}) {
                   <div className="relative">
                     <div className="flex items-start gap-4 mb-5">
                       {d.avatar ? (
-                        <div className="relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-gray-100 group-hover:ring-[#0d3a66]/30 transition-all duration-300 flex-shrink-0">
+                        <div className="relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-gray-100 group-hover:ring-[#0d3a66]/30 transition-all duration-300 shrink-0">
                           <Image
                             src={d.avatar}
                             alt={d.name}
@@ -496,7 +496,7 @@ export default function DoctorsView({ onEdit }: DoctorsViewProps = {}) {
           />
           <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
             <div className="flex items-center gap-4 mb-4">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+              <div className="shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
                 <svg
                   className="w-6 h-6 text-red-600"
                   fill="none"

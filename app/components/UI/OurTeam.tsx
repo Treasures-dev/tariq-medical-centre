@@ -92,7 +92,7 @@ export default function TeamCarousel() {
         <div className="flex justify-center">
           <BlurText
             text="Meet Our Experts."
-            className="text-center text-3xl font-semibold tracking-tight text-[#000080]"
+            className="text-center text-2xl font-semibold tracking-tight text-[#000080]"
           />
         </div>
         <p className="mt-2 text-sm text-[#0d3a66]">

@@ -2,6 +2,8 @@
 import React from "react";
 import type { Metadata } from "next";
 import AboutClient from "../components/UI/AboutClient";
+import Script from "next/script";
+
 
 const NAME = "Tariq Medical Centre";
 const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "";
@@ -59,7 +61,7 @@ export default function AboutPageWrapper() {
 
   return (
     <>
-      <script
+      <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />

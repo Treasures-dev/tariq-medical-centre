@@ -25,7 +25,7 @@ type Props = {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export function ServicesView({ onEdit }: Props) {
+export default function ServicesView({ onEdit }: Props) {
   // ---- hooks (always called, in same order) ----
   const { data, error, isLoading } = useSWR<{ data?: Service[]; services?: Service[] }>(
     "/api/admin/services",

@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from "react";
 import BlurText from "@/components/BlurText";
 
-type OrganogramProps = {
+export type OrganogramProps = {
   imageSrc: string;
   altText?: string;
 };
 
-function Organogram({ imageSrc, altText = "Our Organogram" }: OrganogramProps) {
+export function Organogram({ imageSrc, altText = "Our Organogram" }: OrganogramProps) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -82,13 +82,13 @@ export default function OurOrganogramSection() {
     <section className="py-16 px-4 sm:px-6 lg:px-12 rounded-2xl">
       {/* Heading Section */}
       <div className="mx-auto max-w-2xl text-center">
-        <h3 className="text-base font-semibold text-[#0d3a66]">
+        <h3 className="text-sm  text-[#0d3a66]">
           A clear hierarchy designed for smooth operations and coordinated excellence.
         </h3>
         <div className="flex justify-center">
           <BlurText
-            text="How Our Care System Is Organized."
-            className="text-center text-3xl font-semibold tracking-tight text-[#000080] mt-2"
+            text="How Our System Is Organized."
+            className="text-center text-2xl font-semibold tracking-tight text-[#000080] mt-2"
           />
         </div>
         <p className="mt-2 text-sm text-[#0d3a66]">

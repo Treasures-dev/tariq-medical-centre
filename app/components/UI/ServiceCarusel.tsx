@@ -69,7 +69,7 @@ export default function ServiceCarousel() {
           <div className="flex justify-center">
           <BlurText 
           text="Our Services & Treatments"
-          className="mt-2 text-3xl tracking-tight md:text-3xl font-semibold text-[#000080]"/>
+          className="mt-2 text-2xl tracking-tight font-semibold text-[#000080]"/>
            
           </div>
          

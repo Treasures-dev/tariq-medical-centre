@@ -10,18 +10,19 @@ import {
   Star,
 } from "lucide-react";
 import BlurText from "@/components/BlurText";
+import Image from "next/image";
 
 export default function ServiceSection() {
   return (
     <>
       <div className="mx-auto max-w-2xl mt-20 text-center">
-        <h3 className="text-base font-semibold text-[#0d3a66]">
+        <h3 className="text-sm text-[#0d3a66]">
           Your wellbeing — our everyday promise.
         </h3>
         <div className="flex justify-center">
           <BlurText
             text="Care that revolves around you"
-            className="text-center text-3xl font-semibold tracking-tight text-[#000080]"
+            className="text-center text-2xl md:text-2xl sm:text-2xl font-semibold tracking-tight text-[#000080]"
           />
         </div>
         <p className="mt-2 text-sm text-[#0d3a66]">
@@ -49,7 +50,7 @@ export default function ServiceSection() {
             </h3>
             <BlurText
               text="Perks of choosing Us."
-              className="text-3xl sm:text-4xl font-semibold tracking-tight text-[#000080] mb-4"
+              className="text-2xl tracking-tight text-[#000080] mb-4"
             />
             <p className="text-xs sm:text-sm text-[#0d3a66] mb-4">
               Access top doctors, pharmacy, lab reports, and more in one place.
@@ -94,10 +95,12 @@ export default function ServiceSection() {
               {/* Left small image (hidden on small screens) */}
               <div className="hidden md:block absolute -left-6 top-12 transform -rotate-12 z-10">
                 <div className="w-36 h-48 md:w-40 md:h-56 overflow-hidden rounded-[50%/40%] border-4 border-[#7dd3fc] shadow-lg transform transition-transform duration-500 hover:scale-105 hover:-rotate-6">
-                  <img
+                  <Image
                     src="/images/bento1.png"
                     alt="Care illustration left"
                     className="w-full h-full object-cover"
+                    width={300}
+                    height={300}
                   />
                 </div>
               </div>
@@ -105,10 +108,12 @@ export default function ServiceSection() {
               {/* Center main image */}
               <div className="relative z-30">
                 <div className="w-[220px] h-[300px] sm:w-[260px] sm:h-[360px] md:w-[300px] md:h-[420px] overflow-hidden rounded-[48%/40%] border-8 border-[#ffd580] shadow-2xl transform rotate-2 transition-transform duration-500 hover:scale-105 hover:rotate-0">
-                  <img
+                  <Image
                     src="/images/aidoctor.png"
                     alt="Main service"
                     className="w-full h-full object-cover"
+                    width={300}
+                    height={300}
                   />
                 </div>
               </div>
@@ -116,10 +121,12 @@ export default function ServiceSection() {
               {/* Right small image (hidden on small screens) */}
               <div className="hidden md:block absolute -right-6 top-16 transform rotate-12 z-20">
                 <div className="w-36 h-48 md:w-40 md:h-56 overflow-hidden rounded-[50%/40%] border-4 border-[#fca5a5] shadow-lg transform transition-transform duration-500 hover:scale-105 hover:rotate-6">
-                  <img
+                  <Image
                     src="/images/sec-1.png"
                     alt="Care illustration right"
                     className="w-full h-full object-cover"
+                    width={300}
+                    height={300}
                   />
                 </div>
               </div>
