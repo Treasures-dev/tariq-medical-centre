@@ -84,7 +84,7 @@ export default function AdminOverviewRealtime() {
     const cleanups: (() => void)[] = [];
 
     items.forEach((it) => {
-      const streamUrl = `/api/admin/stream?resource=${it.key}`;
+      const streamUrl = `/api/admin/${it.key}`;
       let es: EventSource | null = null;
       let pollInterval: any = null;
 

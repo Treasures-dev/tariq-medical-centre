@@ -73,7 +73,7 @@ export default function SignInPage() {
 
   return (
     <main
-      className={`${SuseFont.className} min-h-screen bg-gradient-to-b from-white to-[#f8fafc] flex items-center justify-center py-12 px-4`}
+      className={`${SuseFont.className} min-h-screen bg-linear-to-b from-white to-[#f8fafc] flex items-center justify-center py-12 px-4`}
       aria-labelledby="signin-heading"
     >
       <div className="relative w-full mt-20 max-w-5xl">
