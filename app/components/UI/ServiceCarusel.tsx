@@ -80,13 +80,13 @@ export default function ServiceCarousel() {
         </div>
 
         {/* Split Section Carousel */}
-        <div className="relative flex flex-col md:flex-row items-center gap-8 bg-white overflow-hidden p-6 md:p-8">
+        <div className="relative flex flex-col md:flex-row items-center gap-10   bg-white overflow-hidden p-6 md:p-8">
           {/* Left: Image */}
           <div className="md:w-1/2 shrink-0">
             <img
               src={svc.image ?? "/images/images1.png"}
               alt={svc.title}
-              className="w-full h-64 md:h-80 object-cover rounded-[50px] border-4 border-cyan-100 shadow-sm transition-transform duration-500"
+              className="w-full h-50 md:h-60 object-cover rounded-[50px] border-4 border-cyan-100 shadow-sm transition-transform duration-500"
             />
           </div>
 
@@ -112,7 +112,7 @@ export default function ServiceCarousel() {
                 View Details
               </Link>
               <Link
-                href="/appointments"
+                href="/dashboard"
                 className="px-4 py-2 rounded-md border border-[#0d3a66] text-[#0d3a66] text-sm font-medium hover:bg-[#0d3a66] hover:text-white transition"
               >
                 Book Appointment
