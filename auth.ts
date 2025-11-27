@@ -52,4 +52,7 @@ export const auth = betterAuth({
       }
     }),
   },
+  trustedOrigins: [
+    "https://tariq-medical-centre.vercel.app/",
+  ]
 });
