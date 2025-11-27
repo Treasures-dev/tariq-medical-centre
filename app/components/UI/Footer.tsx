@@ -34,8 +34,6 @@ const isLoading = data === undefined && !error;
 // 🔥 Run once whenever data arrives
 React.useEffect(() => {
   if (data) {
-    console.log("Departments loaded:", departments);
-    // You can run any side-effect here
   }
 }, [data, departments]);
 
