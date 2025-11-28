@@ -53,7 +53,7 @@ export default function Footer(): JSX.Element {
           <h4 className="text-[#0d3966] font-semibold mb-2">Quick Links</h4>
           <ul className="text-sm text-[#0d3a66] space-y-1">
             <li>
-              <Link href="/home" className="hover:text-[#0d3966]">
+              <Link href="/" className="hover:text-[#0d3966]">
                 Home
               </Link>
             </li>
