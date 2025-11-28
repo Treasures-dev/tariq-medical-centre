@@ -59,23 +59,21 @@ export async function POST(req: Request) {
 
     // -------------------------------
     // Slug generation for doctor
-    // If request didn't include slug, create one from doctor's name and ensure uniqueness.
     // -------------------------------
     const slugify = (s: string) =>
       s
         .toLowerCase()
         .trim()
         .replace(/[^\w\s-]/g, "") // remove invalid chars
-        .replace(/\s+/g, "-") // replace spaces with -
-        .replace(/-+/g, "-"); // collapse dashes
+        .replace(/\s+/g, "-") // spaces -> dashes
+        .replace(/-+/g, "-"); // collapse multiple dashes
 
-    // derive a base name: prefer parsed.data.name, fallback to first/last or timestamp
+    // derive base name from `name` field only (single-field case)
     const deriveBaseName = () => {
-      if (parsed.data.name && String(parsed.data.name).trim()) return String(parsed.data.name);
-      const first = parsed.data.name ?? parsed.data.name ?? "";
-      const combo = `${first} ${last}`.trim();
-      if (combo) return combo;
-      return `doctor-${Date.now().toString(36)}`; // fallback unique-ish
+      const name = parsed.data.name ? String(parsed.data.name).trim() : "";
+      if (name) return name;
+      // fallback: short timestamp
+      return `doctor-${Date.now().toString(36)}`;
     };
 
     // only generate if slug not provided in request
@@ -84,8 +82,7 @@ export async function POST(req: Request) {
       let candidate = base || `doctor-${Date.now().toString(36)}`;
       let suffix = 0;
 
-      // loop to ensure uniqueness (simple approach)
-      // IMPORTANT: This is OK for low concurrency. For high concurrency also add unique index and handle dup-key.
+      // ensure uniqueness (simple loop)
       while (await User.findOne({ slug: candidate })) {
         suffix += 1;
         candidate = `${base}-${suffix}`;
@@ -93,7 +90,7 @@ export async function POST(req: Request) {
 
       createPayload.slug = candidate;
     } else {
-      // normalize provided slug as well
+      // normalize provided slug
       createPayload.slug = slugify(String(createPayload.slug));
     }
 
@@ -113,7 +110,7 @@ export async function POST(req: Request) {
         updateObj.slug = createPayload.slug;
       }
 
-      // Update existing user, keep other fields intact (we used spread)
+      // Update existing user
       userDoc = await User.findOneAndUpdate(
         { email: parsed.data.email },
         { $set: updateObj },
@@ -136,7 +133,6 @@ export async function POST(req: Request) {
       // No existing user -> create one
       const createObj: any = { ...createPayload, role: "doctor" };
 
-      // If createObj.dept is undefined (not provided) we leave it out.
       const created = await User.create(createObj);
       userDoc = await User.findById(created._id).lean();
 
@@ -153,3 +149,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: err?.message ?? "Server error" }, { status: 500 });
   }
 }
+
