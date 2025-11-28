@@ -1,7 +1,7 @@
 import User from "@/lib/models/User";
 import connectDB from "@/lib/mongoose";
-
 import { NextResponse } from "next/server";
+await import("@/lib/models/Departments");
 
 export async function GET() {
   await connectDB();
@@ -10,10 +10,6 @@ export async function GET() {
     .populate("dept")
     .sort({ createdAt: -1 })
     .lean();
-
-
-
-
 
   return NextResponse.json({ ok: true, doctors });
 }
