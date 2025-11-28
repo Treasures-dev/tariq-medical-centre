@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import BlurText from "@/components/BlurText";
+import Image from "next/image";
 
 export type OrganogramProps = {
   imageSrc: string;
@@ -23,11 +24,13 @@ export function Organogram({ imageSrc, altText = "Our Organogram" }: OrganogramP
     <>
       <div className="w-full flex justify-center mt-6">
         <div className="relative rounded-2xl shadow-lg overflow-hidden border border-white/20 bg-white">
-          <img
+          <Image
             src={imageSrc}
             alt={altText}
             className="max-w-full w-full object-contain block max-h-[50vh] md:max-h-[60vh]"
             loading="lazy"
+            width={300}
+            height={300}
           />
 
           {/* Zoom button */}

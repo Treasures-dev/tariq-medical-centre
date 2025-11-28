@@ -85,13 +85,13 @@ export function MarqueeDemo() {
     <>
       {/* Heading Section */}
       <div className="mx-auto max-w-2xl  text-center">
-        <h3 className="text-base font-semibold text-[#0d3a66]">
+        <h3 className="text-sm font-semibold text-[#0d3a66]">
           “From consultation to recovery, we’re by your side.”
         </h3>
         <div className="flex justify-center">
           <BlurText
             text="Voices of Care and Trust."
-            className="text-center text-3xl font-semibold tracking-tight text-[#000080]"
+            className="text-center text-2xl font-semibold tracking-tight text-[#000080]"
           />
         </div>
         <p className="mt-2 text-sm text-[#0d3a66]">
