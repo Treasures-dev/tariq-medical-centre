@@ -63,7 +63,6 @@ const UserSchema = new mongoose.Schema<IUser>(
       required: true,
       trim: true,
       lowercase: true,
-      unique: true,
     },
     avatar: { type: String, default: null },
     phone: { type: String, default: null },
