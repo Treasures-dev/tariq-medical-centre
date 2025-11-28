@@ -15,32 +15,26 @@ type Department = {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Footer(): JSX.Element {
+  const { data, error } = useSWR("/api/departments", fetcher, {
+    revalidateOnFocus: false,
+    dedupingInterval: 60_000,
+    fallbackData: { data: [] },
+  });
 
+  // Normalize shapes
+  const departments: Department[] = React.useMemo(() => {
+    if (!data) return [];
+    if (Array.isArray(data)) return data as Department[];
+    if (Array.isArray((data as any).departments))
+      return (data as any).departments;
+    return [];
+  }, [data]);
 
-  const { data, error } = useSWR<
-  { departments?: Department[] } | Department[] | null
->("/api/departments", fetcher);
-
-// Normalize shapes
-const departments: Department[] = React.useMemo(() => {
-  if (!data) return [];
-  if (Array.isArray(data)) return data as Department[];
-  if (Array.isArray((data as any).departments)) return (data as any).departments;
-  return [];
-}, [data]);
-
-const isLoading = data === undefined && !error;
-
-// 🔥 Run once whenever data arrives
-React.useEffect(() => {
-  if (data) {
-  }
-}, [data, departments]);
+  const isLoading = data === undefined && !error;
 
   return (
     <footer className="bg-white/90 backdrop-blur-md border-t border-white/20 shadow-inner mt-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
-
         {/* About Section */}
         <div>
           <h4 className="text-[#0d3966] font-semibold mb-2">About Us</h4>
@@ -49,7 +43,8 @@ React.useEffect(() => {
             className="text-2xl font-semibold text-[#000080] mb-2"
           />
           <p className="text-sm text-[#0d3a66]">
-            Providing quality healthcare with compassion, professionalism, and care.
+            Providing quality healthcare with compassion, professionalism, and
+            care.
           </p>
         </div>
 
@@ -97,7 +92,10 @@ React.useEffect(() => {
               <h4 className="text-[#0d3966] font-semibold mb-2">Departments</h4>
               <ul className="text-sm text-[#0d3a66] space-y-1">
                 {Array.from({ length: 3 }).map((_, i) => (
-                  <li key={i} className="h-3 w-24 bg-white/40 rounded animate-pulse" />
+                  <li
+                    key={i}
+                    className="h-3 w-24 bg-white/40 rounded animate-pulse"
+                  />
                 ))}
               </ul>
             </div>
@@ -107,7 +105,10 @@ React.useEffect(() => {
               <ul className="text-sm text-[#0d3a66] space-y-1">
                 {departments.slice(0, 6).map((dept) => (
                   <li key={dept._id}>
-                    <Link href={`/departments/${dept.slug}`} className="hover:text-[#0d3966]">
+                    <Link
+                      href={`/departments/${dept.slug}`}
+                      className="hover:text-[#0d3966]"
+                    >
                       {dept.name}
                     </Link>
                   </li>
@@ -117,7 +118,10 @@ React.useEffect(() => {
           ) : (
             <div>
               <h4 className="text-[#0d3966] font-semibold mb-2">Departments</h4>
-              <Link href="/departments" className="text-sm text-[#0d3a66] hover:text-[#0d3966]">
+              <Link
+                href="/departments"
+                className="text-sm text-[#0d3a66] hover:text-[#0d3966]"
+              >
                 View all departments
               </Link>
             </div>
@@ -128,9 +132,14 @@ React.useEffect(() => {
         <div>
           <h4 className="text-[#0d3966] font-semibold mb-2">Contact Us</h4>
           <p className="text-sm text-[#0d3a66]">
-            Phone: <a href="tel:03219847457" className="hover:text-[#0d3966]">0321-9847457</a>
+            Phone:{" "}
+            <a href="tel:03219847457" className="hover:text-[#0d3966]">
+              0321-9847457
+            </a>
           </p>
-          <p className="text-sm text-[#0d3a66] mt-1">AA Plaza, Choa Road, Kallar Syedan</p>
+          <p className="text-sm text-[#0d3a66] mt-1">
+            AA Plaza, Choa Road, Kallar Syedan
+          </p>
 
           <div className="mt-4 flex gap-4">
             <a
@@ -156,7 +165,8 @@ React.useEffect(() => {
       </div>
 
       <div className="border-t border-white/20 text-center py-4 text-xs text-[#475569]">
-        &copy; {new Date().getFullYear()} Tariq Medical Centre. All rights reserved.
+        &copy; {new Date().getFullYear()} Tariq Medical Centre. All rights
+        reserved.
       </div>
     </footer>
   );

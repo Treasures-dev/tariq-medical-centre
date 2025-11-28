@@ -15,11 +15,27 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Navbar({ topOffset = "6" }: Props) {
   const isTailwindOffset = /^\d+$/.test(topOffset);
-  const { data: departmentsData } = useSWR("/api/departments", fetcher);
+
+
+
+  const { data: departmentsData } = useSWR("/api/departments", fetcher,{
+    revalidateOnFocus:false,
+    dedupingInterval:60_000,
+    fallbackData:{departments:[]}
+  });
+
+
   const departments = departmentsData?.departments ?? departmentsData ?? [];
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [departmentsOpen, setDepartmentsOpen] = useState(false);
+    // user menu + logout modal state
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [signingOut, setSigningOut] = useState(false);
+    const router = useRouter();
+  
+    const userMenuRef = useRef<HTMLDivElement | null>(null);
 
   const {
     data: session,
@@ -28,13 +44,7 @@ export default function Navbar({ topOffset = "6" }: Props) {
     refetch, //refetch the session
   } = authClient.useSession();
 
-  // user menu + logout modal state
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const [signingOut, setSigningOut] = useState(false);
-  const router = useRouter();
 
-  const userMenuRef = useRef<HTMLDivElement | null>(null);
 
   // close menu on outside click
   useEffect(() => {

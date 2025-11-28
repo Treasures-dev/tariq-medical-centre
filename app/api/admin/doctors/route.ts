@@ -37,7 +37,9 @@ export async function POST(req: Request) {
     // Build createPayload from validated data
     const createPayload: any = { ...parsed.data };
 
-    // Normalize dept input: accept slug or ObjectId. If not provided, delete the field so we don't overwrite existing dept.
+    // -------------------------------
+    // Normalize dept input
+    // -------------------------------
     const deptVal = parsed.data.dept ? String(parsed.data.dept).trim() : "";
     let deptDoc: null | any = null;
     if (deptVal) {
@@ -52,8 +54,47 @@ export async function POST(req: Request) {
       createPayload.dept = deptDoc._id; // safe ObjectId
     } else {
       // No dept provided in request: do NOT set dept to "" or null.
-      // Delete so we don't unintentionally overwrite the existing user's dept.
       delete createPayload.dept;
+    }
+
+    // -------------------------------
+    // Slug generation for doctor
+    // If request didn't include slug, create one from doctor's name and ensure uniqueness.
+    // -------------------------------
+    const slugify = (s: string) =>
+      s
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "") // remove invalid chars
+        .replace(/\s+/g, "-") // replace spaces with -
+        .replace(/-+/g, "-"); // collapse dashes
+
+    // derive a base name: prefer parsed.data.name, fallback to first/last or timestamp
+    const deriveBaseName = () => {
+      if (parsed.data.name && String(parsed.data.name).trim()) return String(parsed.data.name);
+      const first = parsed.data.name ?? parsed.data.name ?? "";
+      const combo = `${first} ${last}`.trim();
+      if (combo) return combo;
+      return `doctor-${Date.now().toString(36)}`; // fallback unique-ish
+    };
+
+    // only generate if slug not provided in request
+    if (!("slug" in createPayload) || !createPayload.slug) {
+      const base = slugify(deriveBaseName());
+      let candidate = base || `doctor-${Date.now().toString(36)}`;
+      let suffix = 0;
+
+      // loop to ensure uniqueness (simple approach)
+      // IMPORTANT: This is OK for low concurrency. For high concurrency also add unique index and handle dup-key.
+      while (await User.findOne({ slug: candidate })) {
+        suffix += 1;
+        candidate = `${base}-${suffix}`;
+      }
+
+      createPayload.slug = candidate;
+    } else {
+      // normalize provided slug as well
+      createPayload.slug = slugify(String(createPayload.slug));
     }
 
     // Create the update object by spreading createPayload and forcing role to "doctor"
@@ -67,6 +108,11 @@ export async function POST(req: Request) {
 
     let userDoc: any;
     if (existing) {
+      // If request didn't include slug and the existing user has no slug, ensure we set one
+      if (!("slug" in parsed.data) && !existing.slug) {
+        updateObj.slug = createPayload.slug;
+      }
+
       // Update existing user, keep other fields intact (we used spread)
       userDoc = await User.findOneAndUpdate(
         { email: parsed.data.email },
@@ -75,7 +121,6 @@ export async function POST(req: Request) {
       ).lean();
 
       // Sync Department collections if dept changed (only if request provided a dept)
-      // If request didn't include dept, createPayload won't have dept and we won't change dept membership.
       if ("dept" in createPayload) {
         const oldDeptId = existing.dept ? String(existing.dept) : null;
         const newDeptId = userDoc.dept ? String(userDoc.dept) : null;
@@ -92,7 +137,6 @@ export async function POST(req: Request) {
       const createObj: any = { ...createPayload, role: "doctor" };
 
       // If createObj.dept is undefined (not provided) we leave it out.
-      // If your User schema forbids dept:null ensure it's deleted; we already deleted when not provided.
       const created = await User.create(createObj);
       userDoc = await User.findById(created._id).lean();
 

@@ -14,7 +14,11 @@ export default function TeamCarousel() {
 
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
-  const { data: docData } = useSWR("api/admin/doctors", fetcher);
+  const { data: docData } = useSWR("api/admin/doctors", fetcher , {
+    revalidateOnFocus:false,
+    dedupingInterval:60_000,
+    fallbackData:{doctors:[]}
+  });
   const doctors = docData?.doctors ?? [];
 
   useEffect(() => {
