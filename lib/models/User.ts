@@ -68,7 +68,7 @@ const UserSchema = new mongoose.Schema<IUser>(
     avatar: { type: String, default: null },
     phone: { type: String, default: null },
     role: { type: String, enum: ["user", "doctor", "admin"], default: "user" },
-    slug: { type: String, required: true, unique: true },
+    slug: { type: String, required: true },
     bio: { type: String, default: null },
     specialty: { type: String, default: null },
     qualifications: { type: [String], default: [] },
