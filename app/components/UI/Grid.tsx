@@ -109,7 +109,7 @@ export default function ServiceSection() {
               <div className="relative z-30">
                 <div className="w-[220px] h-[300px] sm:w-[260px] sm:h-[360px] md:w-[300px] md:h-[420px] overflow-hidden rounded-[48%/40%] border-8 border-[#ffd580] shadow-2xl transform rotate-2 transition-transform duration-500 hover:scale-105 hover:rotate-0">
                   <Image
-                    src="/images/aidoctor.png"
+                    src="/images/tmc-ceo.png"
                     alt="Main service"
                     className="w-full h-full object-cover"
                     width={300}

@@ -38,7 +38,7 @@ export function Organogram({ imageSrc, altText = "Our Organogram" }: OrganogramP
             <button
               onClick={() => setOpen(true)}
               aria-label="Zoom organogram"
-              className="bg-white/90 text-teal-300 px-3 py-1 rounded-md text-xs shadow-sm hover:shadow-md"
+              className="bg-white/90 text-yellow-500 px-3 py-1 rounded-md text-xs font-semibold shadow-sm hover:shadow-md"
             >
               Zoom
             </button>

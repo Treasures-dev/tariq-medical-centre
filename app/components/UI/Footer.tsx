@@ -3,7 +3,7 @@
 import React, { JSX, useEffect } from "react";
 import BlurText from "@/components/BlurText";
 import useSWR from "swr";
-import { FaInstagram, FaFacebook } from "react-icons/fa";
+import { FaInstagram, FaFacebook, FaTiktok } from "react-icons/fa";
 import Link from "next/link";
 
 type Department = {
@@ -113,6 +113,27 @@ export default function Footer(): JSX.Element {
                     </Link>
                   </li>
                 ))}
+
+                {/* ---- Static Items ---- */}
+                <li>
+                  <Link
+                    href="https://dentifitdentistry.com"
+                    target="_blank"
+                    className="hover:text-[#0d3966]"
+                  >
+                    Dentifit Dentistry
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="https://dentifitdentistry.com"
+                    target="_blank"
+                    className="hover:text-[#0d3966]"
+                  >
+                    Uyoon Dentistry
+                  </Link>
+                </li>
               </ul>
             </div>
           ) : (
@@ -133,8 +154,12 @@ export default function Footer(): JSX.Element {
           <h4 className="text-[#0d3966] font-semibold mb-2">Contact Us</h4>
           <p className="text-sm text-[#0d3a66]">
             Phone:{" "}
-            <a href="tel:03219847457" className="hover:text-[#0d3966]">
-              0321-9847457
+            <a href="tel:0333-5337736" className="hover:text-[#0d3966]">
+              0333-5337736
+            </a>
+            <span> , </span>
+            <a href="tel:051-3570060" className="hover:text-[#0d3966]">
+              051-3570060
             </a>
           </p>
           <p className="text-sm text-[#0d3a66] mt-1">
@@ -143,7 +168,7 @@ export default function Footer(): JSX.Element {
 
           <div className="mt-4 flex gap-4">
             <a
-              href="#"
+              href="https://www.instagram.com/explore/locations/659196804167364/tariq-medical-centre-kallar-syedan-previously-tariq-nursing-home/"
               aria-label="Instagram"
               target="_blank"
               rel="noopener noreferrer"
@@ -152,7 +177,16 @@ export default function Footer(): JSX.Element {
               <FaInstagram className="w-5 h-5" />
             </a>
             <a
-              href="#"
+              href="https://www.tiktok.com/@tariq.medical.cen?_r=1&_t=ZS-91meVhpVQP7"
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#0d3966] hover:text-[#2563eb]"
+            >
+              <FaTiktok className="w-5 h-5" />
+            </a>
+            <a
+              href="https://www.facebook.com/tariqmedicalcentre/"
               aria-label="Facebook"
               target="_blank"
               rel="noopener noreferrer"

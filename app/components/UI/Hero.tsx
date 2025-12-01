@@ -107,7 +107,21 @@ export default function HeroModern() {
         }}
       />
 
+      
+
       <div className="relative z-10 mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-8 lg:py-12">
+      <div className="text-left mt-10">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-[#000080] leading-tight">
+            <span className="inline-block">Hospital in </span>
+            <span className="inline-block rounded-lg px-3 py-1 bg-[#000080] text-white shadow-lg">
+              Kallar Syedan
+            </span>
+          </h1>
+          <p className="mt-3 text-base sm:text-lg lg:text-xl text-slate-700 font-medium">
+            Providing Best Care Since{" "}
+            <span className="inline-block rounded-lg px-3 py-1 bg-[#000080] text-white shadow-lg">1988</span>
+          </p>
+        </div>
         <div className="flex items-center gap-6 lg:gap-10">
           {/* Vertical Navigation */}
           <div className="hidden lg:flex flex-col items-center gap-4">
