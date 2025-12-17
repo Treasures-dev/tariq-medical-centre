@@ -14,6 +14,11 @@ import { makeDoctorFilter } from "@/lib/utils";
 
 export async function GET(_req: Request, { params }: RouteParams) {
   try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (session?.user?.role !== "admin") {
+      return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+    }
+
     await connectDB();
     const { slug } = await params;
     if (!slug) {

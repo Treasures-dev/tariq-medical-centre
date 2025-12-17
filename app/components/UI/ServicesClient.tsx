@@ -125,7 +125,7 @@ export default function ServicesClient({ initialData }: { initialData?: ServiceR
               <div key={i} className="animate-pulse rounded-2xl bg-white/40 h-48" />
             ))
           : services.map((svc) => (
-              <Link key={svc.id} href={`/services/${svc.slug}`} className="group">
+              <Link key={svc.id} href={`/healthcare/${svc.slug}`} className="group">
                 <article className="relative rounded-2xl bg-white/70 backdrop-blur-md border border-white/30 shadow-md hover:shadow-lg transition overflow-hidden">
 
                   <div className="relative h-28 bg-gray-100 overflow-hidden">

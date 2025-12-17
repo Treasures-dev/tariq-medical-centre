@@ -52,7 +52,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const service = await fetchServiceBySlug(params.slug);
+  const {slug} = await params;
+  const service = await fetchServiceBySlug(slug);
 
   if (!service) {
     return {
