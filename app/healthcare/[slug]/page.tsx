@@ -10,7 +10,7 @@ const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "";
 
 async function fetchAllServices(): Promise<RawService[]> {
   try {
-    const res = await fetch(`${BASE}/api/services`, { cache: "no-store" });
+    const res = await fetch(`${BASE}/api/services`, { cache: "force-cache" });
     if (!res.ok) return [];
     const json = await res.json().catch(() => null);
     const arr = json?.services ?? json?.data ?? json ?? [];
@@ -24,7 +24,7 @@ async function fetchServiceBySlug(slug: string): Promise<RawService | null> {
   // try direct API first (/api/services/:slug)
   try {
     const res = await fetch(`${BASE}/api/services/${slug}`, {
-      cache: "no-store",
+      cache: "force-cache",
     });
     if (res.ok) {
       const json = await res.json().catch(() => null);
@@ -50,7 +50,7 @@ async function fetchServiceBySlug(slug: string): Promise<RawService | null> {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const {slug} = await params;
   const service = await fetchServiceBySlug(slug);

@@ -198,9 +198,29 @@ export default function Footer(): JSX.Element {
         </div>
       </div>
 
-      <div className="border-t border-white/20 text-center py-4 text-xs text-[#475569]">
-        &copy; {new Date().getFullYear()} Tariq Medical Centre. All rights
-        reserved.
+      <div className="border-t border-white/20 py-6 text-center text-xs text-[#475569]">
+        <div className="flex flex-col items-center gap-1">
+          <span>
+            © {new Date().getFullYear()}{" "}
+            <span className="font-semibold text-[#0d3966]">
+              Tariq Medical Centre
+            </span>
+            . All rights reserved.
+          </span>
+
+          <span className="text-[11px]">
+            Crafted with ❤️ by{" "}
+            <a
+              href="https://wa.me/923186101036"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 py-2 text-[#475569] text-xs font-medium hover:scale-105  transition-all"
+              aria-label="Chat on WhatsApp"
+            >
+              Aman Gill
+            </a>
+          </span>
+        </div>
       </div>
     </footer>
   );

@@ -148,17 +148,17 @@ export default function DoctorDashboardPage() {
             </div>
 
             <div className="grid gap-3">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-white/60 to-white/40 border border-white/30 shadow-sm">
+              <div className="p-3 rounded-xl bg-linear-to-br from-white/60 to-white/40 border border-white/30 shadow-sm">
                 <div className="text-xs text-gray-500">Pending</div>
                 <div className="text-lg font-semibold text-gray-900">{stats.pending}</div>
               </div>
 
-              <div className="p-3 rounded-xl bg-gradient-to-br from-white/60 to-white/40 border border-white/30 shadow-sm">
+              <div className="p-3 rounded-xl bg-linear-to-br from-white/60 to-white/40 border border-white/30 shadow-sm">
                 <div className="text-xs text-gray-500">Confirmed</div>
                 <div className="text-lg font-semibold text-gray-900">{stats.confirmed}</div>
               </div>
 
-              <div className="p-3 rounded-xl bg-gradient-to-br from-white/60 to-white/40 border border-white/30 shadow-sm">
+              <div className="p-3 rounded-xl bg-linear-to-br from-white/60 to-white/40 border border-white/30 shadow-sm">
                 <div className="text-xs text-gray-500">Completed</div>
                 <div className="text-lg font-semibold text-gray-900">{stats.completed}</div>
               </div>
@@ -205,7 +205,7 @@ export default function DoctorDashboardPage() {
               </div>
 
               {/* Prescriptions card */}
-              <div className="rounded-2xl bg-gradient-to-tr from-white/60 to-white/50 backdrop-blur-md border border-white/30 shadow-lg p-4">
+              <div className="rounded-2xl bg-linear-to-tr from-white/60 to-white/50 backdrop-blur-md border border-white/30 shadow-lg p-4">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-lg font-semibold" style={{ color: THEME }}>Recent Prescriptions</h3>
                   <span className="text-sm text-gray-600">{prescriptions.length} total</span>

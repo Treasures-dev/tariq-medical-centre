@@ -4,6 +4,7 @@ import Appointment from "@/lib/models/Appointment";
 import connectDB from "@/lib/mongoose";
 import { auth } from "@/auth";
 import { headers } from "next/headers";
+import { notifyAppointmentStatusChange } from "@/lib/email/notifications";
 
 type PatchBody = {
   action?: "confirm" | "complete" | "cancel";
@@ -20,7 +21,6 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id?: s
     return NextResponse.json({ success: false, error: "Unauthenticated" }, { status: 401 });
   }
 
-  // Only doctors (and optionally admins) can update status / add prescriptions
   if (session.user.role !== "doctor" && session.user.role !== "admin") {
     return NextResponse.json({ success: false, error: "Not authorized" }, { status: 403 });
   }
@@ -37,7 +37,6 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id?: s
     return NextResponse.json({ success: false, error: "Invalid JSON body" }, { status: 400 });
   }
 
-  // Basic validation
   if (!body.action && !body.prescription) {
     return NextResponse.json({ 
       success: false, 
@@ -69,7 +68,6 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id?: s
       return NextResponse.json({ success: false, error: "Appointment not found" }, { status: 404 });
     }
 
-    // OPTIONAL: ensure the logged-in doctor owns this appointment
     if (String(appt.doctorId) !== String(session.user.id) && session.user.role !== "admin") {
       return NextResponse.json({ 
         success: false, 
@@ -77,14 +75,24 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id?: s
       }, { status: 403 });
     }
 
+    // Track if status changed to send notification
+    let statusChanged = false;
+    let actionType: "confirm" | "complete" | "cancel" | null = null;
+
     // Apply action (status changes)
     if (body.action) {
-      if (body.action === "confirm") {
+      if (body.action === "confirm" && appt.status !== "confirmed") {
         appt.status = "confirmed";
-      } else if (body.action === "complete") {
+        statusChanged = true;
+        actionType = "confirm";
+      } else if (body.action === "complete" && appt.status !== "completed") {
         appt.status = "completed";
-      } else if (body.action === "cancel") {
+        statusChanged = true;
+        actionType = "complete";
+      } else if (body.action === "cancel" && appt.status !== "cancelled") {
         appt.status = "cancelled";
+        statusChanged = true;
+        actionType = "cancel";
       }
     }
 
@@ -93,7 +101,6 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id?: s
       const medications = body.prescription.medications || body.prescription.meds || "";
       const notes = body.prescription.notes || "";
 
-      // Store prescription as an object matching your schema
       appt.prescription = {
         medications,
         notes,
@@ -101,13 +108,19 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id?: s
         createdAt: new Date(),
       };
 
-      // Mark as updated
       appt.markModified('prescription');
     }
 
     await appt.save();
 
-    // Return the updated appointment
+    // Send notifications if status changed
+    if (statusChanged && actionType) {
+      // Send notifications asynchronously (don't wait for them)
+      notifyAppointmentStatusChange(appt as any, actionType as any).catch(err => {
+        console.error('Failed to send notifications:', err);
+      });
+    }
+
     return NextResponse.json({ 
       success: true, 
       appointment: appt,
@@ -146,7 +159,6 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id?: 
       return NextResponse.json({ success: false, error: "Appointment not found" }, { status: 404 });
     }
 
-    // OPTIONAL: ensure the logged-in doctor owns this appointment
     if (String(appt.doctorId) !== String(session.user.id) && session.user.role !== "admin") {
       return NextResponse.json({ 
         success: false, 
@@ -168,4 +180,4 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id?: 
       error: err?.message || "Server error" 
     }, { status: 500 });
   }
-}
+} 
